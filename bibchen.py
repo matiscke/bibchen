@@ -77,7 +77,7 @@ if __name__ == '__main__':
     # Check if there's a .bbl file. If not, make one.
     if not os.path.isfile('%s.bbl' % file):
         with open('temp.sh', 'a') as f:
-            f.write('%s %s\n' % (args.latex, file))
+            f.write('%s -interaction=nonstopmode %s \n' % (args.latex, file))
             f.write('bibtex %s\n' % file)
 
     # Create appropriate files.
@@ -140,10 +140,10 @@ if __name__ == '__main__':
     # Compile the new PDF.
     with open('temp.sh', 'w') as f:
         f.write('#!/bin/bash\n')
-        f.write('%s %s\n' % (args.latex, file))
+        f.write('%s -interaction=nonstopmode %s \n' % (args.latex, file))
         f.write('bibtex %s\n' % file)
-        f.write('%s %s\n' % (args.latex, file))
-        f.write('%s %s\n' % (args.latex, file))
+        f.write('%s -interaction=nonstopmode %s \n' % (args.latex, file))
+        f.write('%s -interaction=nonstopmode %s \n' % (args.latex, file))
         f.write('mv %s_temp.tex %s.tex\n' % (file, file))
     os.chmod('./temp.sh', 0o755)
     subprocess.call('./temp.sh', stdout=stdout, stderr=stderr)
